@@ -98,7 +98,7 @@ function renderGallery(array) {
 
   /* SimpleLightbox */
   var lightbox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
+    // captionsData: 'alt',
     captionDelay: 250,
   });
 }
