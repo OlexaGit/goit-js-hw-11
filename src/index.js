@@ -1,4 +1,4 @@
-import './css/styles.css';
+// import './css/styles.css';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
@@ -6,6 +6,7 @@ import { fetchCountries } from './fetchCountries';
 import axios from 'axios';
 
 const form = document.querySelector('#search-form');
+const galleryContainer = document.querySelector('.gallery');
 
 form.addEventListener('submit', handleSubmit);
 
@@ -21,11 +22,6 @@ function handleSubmit(event) {
   getsearchQuery(searchQuery.value, event.currentTarget);
 }
 
-// const myApiKey = 'u_lbe459kmo7';
-// const axios = require('axios');
-// axios.get('/users').then(res => {
-//   console.log(res.data);
-// });
 async function getsearchQuery(searchEl, event) {
   try {
     const myApiKey = 'u_lbe459kmo7';
@@ -47,9 +43,64 @@ async function getsearchQuery(searchEl, event) {
       return;
     }
     Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`);
+    renderGallery(response.data.hits);
   } catch (error) {
     console.error(error);
   }
+}
+
+function renderGallery(array) {
+  const markup = array
+    .map(
+      ({
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => {
+        //  <img class="gallery__image" src="${webformatURL}" alt="${tags}" />;
+        return `       
+    <div class="photo-card">
+        <a class="gallery__link" href="${largeImageURL}">
+          <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        </a>  
+      <div class="info">
+        <p class="info-item">
+          <b>Likes</b>
+          ${likes}
+        </p>        
+        <p class="info-item">
+          <b>Views</b>
+          ${views}
+        </p>
+        <p class="info-item">
+          <b>Comments</b>
+          ${comments}
+        </p>
+        <p class="info-item">
+          <b>Downloads</b>
+          ${downloads}
+        </p>
+      </div>
+    </div>
+  `;
+      }
+    )
+    .join('');
+  // Бібліотека містить метод refresh(), який обов'язково потрібно викликати щоразу після додавання нової групи карток зображень.
+  galleryContainer.insertAdjacentHTML('beforeend', markup);
+  galleryContainer.addEventListener('click', event => {
+    event.preventDefault();
+  });
+
+  /* SimpleLightbox */
+  var lightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  });
 }
 
 // fieldFindCountry.addEventListener(

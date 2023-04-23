@@ -18,3 +18,17 @@ body {
   max-width: 320px;
   margin-bottom: 16px;
 }
+/* .gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 10px;
+} */
+.photo-card {
+  width: 100px;
+}
+.info {
+  display: flex;
+}
+.info-item {
+  display: block;
+}
