@@ -18,8 +18,7 @@ function handleSubmit(event) {
     event.currentTarget.reset();
     return;
   }
-  getsearchQuery(searchQuery.value);
-  console.log(searchQuery.value);
+  getsearchQuery(searchQuery.value, event.currentTarget);
 }
 
 // const myApiKey = 'u_lbe459kmo7';
@@ -27,13 +26,7 @@ function handleSubmit(event) {
 // axios.get('/users').then(res => {
 //   console.log(res.data);
 // });
-async function getsearchQuery(searchEl) {
-  console.log(searchEl);
-  // let totalHits = 0;
-  // const myApiKey = 'u_lbe459kmo7';
-  // const imageType = 'photo';
-  // const orientation = 'horizontal';
-  // const safesearch = 'true';
+async function getsearchQuery(searchEl, event) {
   try {
     const myApiKey = 'u_lbe459kmo7';
     const imageType = 'photo';
@@ -45,6 +38,15 @@ async function getsearchQuery(searchEl) {
     // pixabay.com/api/?key=35687240-9029e9ca17f641307dafe05a9&q=yellow+flowers&image_type=photo
     console.log(response.data);
     console.log('Загальна кількість зображень: ', response.data.totalHits);
+    const lengthArray = response.data.hits.length;
+    if (lengthArray === 0) {
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      event.reset();
+      return;
+    }
+    Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`);
   } catch (error) {
     console.error(error);
   }
