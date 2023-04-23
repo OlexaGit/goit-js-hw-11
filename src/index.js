@@ -19,6 +19,7 @@ function handleSubmit(event) {
     event.currentTarget.reset();
     return;
   }
+  galleryContainer.innerHTML = '';
   getsearchQuery(searchQuery.value, event.currentTarget);
 }
 
@@ -61,7 +62,6 @@ function renderGallery(array) {
         comments,
         downloads,
       }) => {
-        //  <img class="gallery__image" src="${webformatURL}" alt="${tags}" />;
         return `       
     <div class="photo-card">
         <a class="gallery__link" href="${largeImageURL}">
@@ -90,17 +90,18 @@ function renderGallery(array) {
       }
     )
     .join('');
-  // Бібліотека містить метод refresh(), який обов'язково потрібно викликати щоразу після додавання нової групи карток зображень.
+
   galleryContainer.insertAdjacentHTML('beforeend', markup);
   galleryContainer.addEventListener('click', event => {
     event.preventDefault();
   });
 
   /* SimpleLightbox */
-  var lightbox = new SimpleLightbox('.gallery a', {
-    // captionsData: 'alt',
-    captionDelay: 250,
+  // Бібліотека містить метод refresh(), який обов'язково потрібно викликати щоразу після додавання нової групи карток зображень.
+  const lightbox = new SimpleLightbox('.gallery a', {
+    captionDelay: 200,
   });
+  lightbox.refresh();
 }
 
 // fieldFindCountry.addEventListener(

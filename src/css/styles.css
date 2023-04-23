@@ -53,16 +53,13 @@ body {
 }
 
 .gallery__link {
-  /* display: block; */
   height: 100%;
 }
 
 .gallery__link:hover {
   cursor: zoom-in;
 }
-/* .info {
-  display: flex;
-} */
+
 .info-item {
   display: block;
   text-align: center;
