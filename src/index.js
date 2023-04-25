@@ -7,8 +7,16 @@ import axios from 'axios';
 
 const form = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
+const loadMoreBtn = document.querySelector('.load-more');
 
+let searchEl = '';
+let page = 1;
+loadMoreBtn.style.display = 'none';
 form.addEventListener('submit', handleSubmit);
+loadMoreBtn.addEventListener('click', () => {
+  page += 1;
+  getsearchQuery(searchEl, page);
+});
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -19,28 +27,35 @@ function handleSubmit(event) {
     event.currentTarget.reset();
     return;
   }
+
   galleryContainer.innerHTML = '';
-  getsearchQuery(searchQuery.value, event.currentTarget);
+  searchEl = searchQuery.value;
+  getsearchQuery(searchEl, page);
+  // console.log(response.data.hits);
+  // loadMoreBtn.addEventListener('click', () => {
+  //   page += 1;
+  //   getsearchQuery(searchQuery.value, event.currentTarget, page);
+  // });
 }
 
-async function getsearchQuery(searchEl, event) {
+async function getsearchQuery(searchEl, page = 1) {
   try {
-    const myApiKey = 'u_lbe459kmo7';
+    const per_page = 6;
+    const myApiKey = '35687240-9029e9ca17f641307dafe05a9';
     const imageType = 'photo';
     const orientation = 'horizontal';
     const safesearch = 'true';
     const response = await axios.get(
-      `https://pixabay.com/api/?key=35687240-9029e9ca17f641307dafe05a9&q=${searchEl}&image_type=${imageType}&orientation=${orientation}&safesearch=${safesearch}`
+      `https://pixabay.com/api/?key=${myApiKey}&q=${searchEl}&image_type=${imageType}&orientation=${orientation}&safesearch=${safesearch}&page=${page}&per_page=${per_page}`
     );
-    // pixabay.com/api/?key=35687240-9029e9ca17f641307dafe05a9&q=yellow+flowers&image_type=photo
-    console.log(response.data);
+    console.log(response);
     console.log('Загальна кількість зображень: ', response.data.totalHits);
     const lengthArray = response.data.hits.length;
     if (lengthArray === 0) {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
-      event.reset();
+      // event.reset();
       return;
     }
     Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`);
@@ -91,18 +106,22 @@ function renderGallery(array) {
     )
     .join('');
 
+  loadMoreBtn.style.display = 'inline-block';
   galleryContainer.insertAdjacentHTML('beforeend', markup);
-  galleryContainer.addEventListener('click', event => {
-    event.preventDefault();
-  });
+  // galleryContainer.addEventListener('click', event => {
+  //   event.preventDefault();
+  // });
 
   /* SimpleLightbox */
   // Бібліотека містить метод refresh(), який обов'язково потрібно викликати щоразу після додавання нової групи карток зображень.
   const lightbox = new SimpleLightbox('.gallery a', {
-    captionDelay: 200,
+    captionDelay: 100,
   });
   lightbox.refresh();
 }
+
+// function loadMore() {
+// }
 
 // fieldFindCountry.addEventListener(
 //   'input',

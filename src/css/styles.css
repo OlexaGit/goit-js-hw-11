@@ -64,3 +64,6 @@ body {
   display: block;
   text-align: center;
 }
+.load-more {
+  margin-top: 100px;
+}
