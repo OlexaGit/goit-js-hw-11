@@ -11,14 +11,22 @@ export default class NewsApiService {
     const orientation = 'horizontal';
     const safesearch = 'true';
     const axios = require('axios').default;
-    axios
+    return axios
       .get(
         `https://pixabay.com/api/?key=${myApiKey}&q=${this.searchQuery}&image_type=${imageType}&orientation=${orientation}&safesearch=${safesearch}&page=${this.page}&per_page=${per_page}`
       )
       .then(data => {
-        this.page += 1;
+        this.incrementPage();
+        // console.log(data.data.hits);
+        return data.data.hits;
       });
     // .then(console.log);
+  }
+  incrementPage() {
+    this.page += 1;
+  }
+  resetPage() {
+    this.page = 1;
   }
   get query() {
     return this.searchQuery;

@@ -16,15 +16,16 @@ loadMoreBtn.addEventListener('click', onLoadMore);
 function onSearch(e) {
   e.preventDefault();
   newsApiService.query = e.currentTarget.elements.searchQuery.value;
-  newsApiService.fetchArticles();
+  newsApiService.resetPage();
+  newsApiService.fetchArticles().then(renderGallery);
 }
 
 function onLoadMore() {
-  newsApiService.fetchArticles();
+  newsApiService.fetchArticles().then(renderGallery);
 }
 
-function renderGallery(array) {
-  const markup = array
+function renderGallery(hits) {
+  const markup = hits
     .map(
       ({
         webformatURL,
@@ -64,7 +65,7 @@ function renderGallery(array) {
     )
     .join('');
 
-  loadMoreBtn.style.display = 'inline-block';
+  // loadMoreBtn.style.display = 'inline-block';
   galleryContainer.insertAdjacentHTML('beforeend', markup);
 
   /* SimpleLightbox */
