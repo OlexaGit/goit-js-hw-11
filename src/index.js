@@ -15,9 +15,17 @@ loadMoreBtn.addEventListener('click', onLoadMore);
 
 function onSearch(e) {
   e.preventDefault();
+
+  clearContainer();
   newsApiService.query = e.currentTarget.elements.searchQuery.value;
+  if (newsApiService.searchQuery === '') {
+    e.currentTarget.reset();
+    return;
+  }
   newsApiService.resetPage();
-  newsApiService.fetchArticles().then(renderGallery);
+  newsApiService.fetchArticles().then(hits => {
+    renderGallery(hits);
+  });
 }
 
 function onLoadMore() {
@@ -70,10 +78,12 @@ function renderGallery(hits) {
   galleryContainer.insertAdjacentHTML('beforeend', markup);
 
   /* SimpleLightbox */
-  const lightbox = new SimpleLightbox('.gallery a', {
-    captionDelay: 100,
-  });
+  const lightbox = new SimpleLightbox('.gallery a');
   lightbox.refresh();
+}
+
+function clearContainer() {
+  galleryContainer.innerHTML = '';
 }
 
 // import Notiflix from 'notiflix';
