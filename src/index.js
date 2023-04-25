@@ -1,17 +1,18 @@
-import Notiflix from 'notiflix';
+// import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import NewsApiService from './on-search';
-import axios from 'axios';
+// import axios from 'axios';
 
 const form = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
 const newsApiService = new NewsApiService();
 
-// loadMoreBtn.style.display = 'none';
+loadMoreBtn.style.display = 'none';
 form.addEventListener('submit', onSearch);
 loadMoreBtn.addEventListener('click', onLoadMore);
+// console.log(newsApiService.totalHits);
 
 function onSearch(e) {
   e.preventDefault();
@@ -33,7 +34,6 @@ function onLoadMore() {
 }
 
 function renderGallery(hits) {
-  // console.log(hits);
   const markup = hits
     .map(
       ({
@@ -74,7 +74,7 @@ function renderGallery(hits) {
     )
     .join('');
 
-  // loadMoreBtn.style.display = 'inline-block';
+  loadMoreBtn.style.display = 'inline-block';
   galleryContainer.insertAdjacentHTML('beforeend', markup);
 
   /* SimpleLightbox */
