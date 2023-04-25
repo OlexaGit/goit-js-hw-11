@@ -20,7 +20,6 @@ export default class NewsApiService {
         // console.log(data.data.hits);
         return data.data.hits;
       });
-    // .then(console.log);
   }
   incrementPage() {
     this.page += 1;

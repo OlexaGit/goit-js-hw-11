@@ -25,6 +25,7 @@ function onLoadMore() {
 }
 
 function renderGallery(hits) {
+  // console.log(hits);
   const markup = hits
     .map(
       ({
