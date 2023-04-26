@@ -6,7 +6,7 @@ const safesearch = 'true';
 const axios = require('axios').default;
 let totalPages = 1;
 
-import axios from 'axios';
+// import axios from 'axios';
 import Notiflix from 'notiflix';
 export default class NewsApiService {
   constructor() {
