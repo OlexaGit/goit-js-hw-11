@@ -1,8 +1,8 @@
-// import Notiflix from 'notiflix';
+import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import NewsApiService from './on-search';
-// import axios from 'axios';
+import axios from 'axios';
 
 const form = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
