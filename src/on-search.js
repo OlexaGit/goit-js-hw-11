@@ -22,6 +22,7 @@ export default class NewsApiService {
       .then(({ data: { hits }, data: { totalHits } }) => {
         const lengthArray = totalHits;
         totalPages = totalHits / per_page;
+        // console.log(totalPages, totalHits, per_page);
         if (lengthArray === 0) {
           Notiflix.Notify.failure(
             'Sorry, there are no images matching your search query. Please try again.'
@@ -29,7 +30,10 @@ export default class NewsApiService {
           return;
         } else if (this.page === 1) {
           Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
-        } else if (this.page > totalPages) {
+        }
+        if (this.page > totalPages) {
+          // console.log(this.page, totalPages);
+          clearContainer();
           return this.toggleAlertPopup();
         }
         // console.log(data.data.hits);
@@ -48,6 +52,7 @@ export default class NewsApiService {
     Notiflix.Notify.failure(
       "We're sorry, but you've reached the end of search results."
     );
+
     // loadMoreBtn.style.display = 'none';
 
     // if (isAlertVisible) {
