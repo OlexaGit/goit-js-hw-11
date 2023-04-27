@@ -23,7 +23,7 @@ function onSearch(e) {
   }
   newsApiService.resetPage();
   newsApiService.fetchArticles().then(hits => {
-    if (newsApiService.isBtnVisible) {
+    if (newsApiService.lengthArray === 0) {
       return;
     }
     renderGallery(hits);
@@ -36,6 +36,14 @@ function onSearch(e) {
 function onLoadMore() {
   newsApiService.fetchArticles().then(hits => {
     renderGallery(hits);
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
     if (newsApiService.isBtnVisible) {
       loadMoreBtn.style.display = 'none';
     }

@@ -1,4 +1,4 @@
-const per_page = 20;
+const per_page = 40;
 const myApiKey = '35687240-9029e9ca17f641307dafe05a9';
 const imageType = 'photo';
 const orientation = 'horizontal';
@@ -11,6 +11,7 @@ export default class NewsApiService {
     this.searchQuery = '';
     this.page = 1;
     this.totalPages = 1;
+    this.lengthArray = 0;
     this.isBtnVisible = false;
   }
 
@@ -21,10 +22,9 @@ export default class NewsApiService {
           `https://pixabay.com/api/?key=${myApiKey}&q=${this.searchQuery}&image_type=${imageType}&orientation=${orientation}&safesearch=${safesearch}&page=${this.page}&per_page=${per_page}`
         )
         .then(({ data: { hits }, data: { totalHits } }) => {
-          const lengthArray = totalHits;
+          this.lengthArray = totalHits;
           this.totalPages = totalHits / per_page;
-          if (lengthArray === 0) {
-            this.isBtnVisible = true;
+          if (this.lengthArray === 0) {
             Notiflix.Notify.failure(
               'Sorry, there are no images matching your search query. Please try again.'
             );

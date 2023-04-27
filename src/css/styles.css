@@ -19,7 +19,6 @@ body {
   background-color: darkslateblue;
 }
 #search-form input {
-  /* max-width: 320px; */
   margin-left: 40%;
 }
 :root {
@@ -36,6 +35,7 @@ body {
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 50px;
 }
 
 .info {
@@ -69,8 +69,8 @@ body {
   text-align: center;
 }
 .load-more {
-  margin-top: 150px;
-  margin-left: 50%;
+  margin-top: 100px;
+  margin-left: 45%;
   background-color: darkslateblue;
   line-height: 1.8;
   color: #fafafa;
