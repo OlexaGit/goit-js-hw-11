@@ -10,9 +10,10 @@ const loadMoreBtn = document.querySelector('.load-more');
 const newsApiService = new NewsApiService();
 
 loadMoreBtn.style.display = 'none';
+
 form.addEventListener('submit', onSearch);
 loadMoreBtn.addEventListener('click', onLoadMore);
-// console.log(newsApiService.totalHits);
+console.log(newsApiService.isBtnVisible);
 
 function onSearch(e) {
   e.preventDefault();
@@ -30,7 +31,12 @@ function onSearch(e) {
 }
 
 function onLoadMore() {
-  newsApiService.fetchArticles().then(renderGallery);
+  newsApiService.fetchArticles().then(hits => {
+    renderGallery(hits);
+    if (newsApiService.isBtnVisible) {
+      loadMoreBtn.style.display = 'none';
+    }
+  });
 }
 
 function renderGallery(hits) {

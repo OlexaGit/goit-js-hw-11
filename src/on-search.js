@@ -1,10 +1,9 @@
-const per_page = 6;
+const per_page = 40;
 const myApiKey = '35687240-9029e9ca17f641307dafe05a9';
 const imageType = 'photo';
 const orientation = 'horizontal';
 const safesearch = 'true';
 const axios = require('axios').default;
-let totalPages = 1;
 
 // import axios from 'axios';
 import Notiflix from 'notiflix';
@@ -12,6 +11,8 @@ export default class NewsApiService {
   constructor() {
     this.searchQuery = '';
     this.page = 1;
+    this.totalPages = 1;
+    this.isBtnVisible = false;
   }
 
   fetchArticles() {
@@ -21,9 +22,9 @@ export default class NewsApiService {
       )
       .then(({ data: { hits }, data: { totalHits } }) => {
         const lengthArray = totalHits;
-        totalPages = totalHits / per_page;
-        // console.log(totalPages, totalHits, per_page);
+        this.totalPages = totalHits / per_page;
         if (lengthArray === 0) {
+          this.resetPage();
           Notiflix.Notify.failure(
             'Sorry, there are no images matching your search query. Please try again.'
           );
@@ -31,39 +32,31 @@ export default class NewsApiService {
         } else if (this.page === 1) {
           Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
         }
-        if (this.page > totalPages) {
-          // console.log(this.page, totalPages);
-          clearContainer();
-          return this.toggleAlertPopup();
+        console.log(this.page, this.totalPages);
+        if (this.page > this.totalPages) {
+          this.isBtnVisible = true;
+          this.toggleAlertPopup();
         }
-        // console.log(data.data.hits);
         this.incrementPage();
         return hits;
       });
   }
+
   incrementPage() {
     this.page += 1;
   }
+
   resetPage() {
     this.page = 1;
+    this.isBtnVisible = false;
   }
 
   toggleAlertPopup() {
-    Notiflix.Notify.failure(
-      "We're sorry, but you've reached the end of search results."
-    );
-
-    // loadMoreBtn.style.display = 'none';
-
-    // if (isAlertVisible) {
-    //   return;
-    // }
-    // isAlertVisible = true;
-    // alertPopup.classList.add('is-visible');
-    // setTimeout(() => {
-    //   alertPopup.classList.remove('is-visible');
-    //   isAlertVisible = false;
-    // }, 3000);
+    setTimeout(() => {
+      Notiflix.Notify.failure(
+        "We're sorry, but you've reached the end of search results."
+      );
+    }, 3000);
   }
 
   get query() {

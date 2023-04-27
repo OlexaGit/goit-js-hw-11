@@ -12,11 +12,15 @@ body {
   line-height: 1.5;
 }
 
-#search-box {
+#search-form {
   font: inherit;
   padding: 8px;
-  max-width: 320px;
   margin-bottom: 16px;
+  background-color: darkslateblue;
+}
+#search-form input {
+  /* max-width: 320px; */
+  margin-left: 40%;
 }
 :root {
   --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -65,5 +69,14 @@ body {
   text-align: center;
 }
 .load-more {
-  margin-top: 100px;
+  margin-top: 150px;
+  margin-left: 50%;
+  background-color: darkslateblue;
+  line-height: 1.8;
+  color: #fafafa;
+  border-color: darkslateblue;
+}
+.load-more:hover {
+  background-color: indigo;
+  cursor: pointer;
 }
